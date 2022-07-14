@@ -1,39 +1,92 @@
 import React from 'react';
 import {
-  ChakraProvider,
   Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
+  // Container,
+  ChakraProvider
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+import { theme } from './styles/theme/index';
 
-function App() {
+import Navigation from './components/Navigation';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Member from './pages/Member';
+import Report from './pages/Report';
+import Room from './pages/Room';
+import Advertise from './pages/Advertise';
+import NoMatch from './pages/NoMatch';
+import {
+  // BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  // Navigate,
+} from "react-router-dom";
+let routes = [
+  {
+    to: "/",
+    name: "Home",
+    page: <Home />,
+    // isLast: false,
+  },
+  {
+    to: "/advertise",
+    name: "Advertise",
+    page: <Advertise />,
+    // isLast: false,
+  },
+  {
+    to: "/member",
+    name: "Member",
+    page: <Member />,
+    // isLast: false,
+  },
+  {
+    to: "/report",
+    name: "Report",
+    page: <Report />,
+    // isLast: false,
+  },
+  {
+    to: "/room",
+    name: "Room",
+    page: <Room />,
+    // isLast: true,
+  },
+]
+
+const App = () => {
+  const location = useLocation();
+  const isLogin = true;
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
+        <Navigation
+          currentIndex={location.pathname}
+          sideBarItems={routes}
+          sideBarTitle="LOGO"
+          headerLogo="USERNAME"
+          isLogin={isLogin}
+        />
+        <Routes>
+          {isLogin ?
+            <>
+              {routes.map((route, index) => {
+                return (
+                  <Route key={index} path={route.to} element={route.page} />
+                )
+              })}
+            </> :
+            <>
+              <Route path="/login" element={<Login />} />
+            </>
+          }
+          <Route
+            path="*"
+            element={
+              <NoMatch />
+            }
+          />
+        </Routes>
       </Box>
     </ChakraProvider>
   );
