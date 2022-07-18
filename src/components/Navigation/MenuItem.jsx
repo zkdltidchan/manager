@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
-import { Text } from "@chakra-ui/react";
+import {
+  Button,
+} from "@chakra-ui/react";
+
+
 
 const MenuItem = ({ children, isCurrentIndex, to = "/", ...rest }) => {
   return (
-    <Text
+    <Button
+      as={Link}
+      to={to}
+      variant={isCurrentIndex ? "outline" : "ghost"}
       textAlign="center"
       {...rest}
     >
-      <Link to={to}
-      >
-        {children}
-      </Link>
-    </Text>
+      {children}
+    </Button>
   );
 };
 

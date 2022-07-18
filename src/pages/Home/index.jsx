@@ -4,15 +4,15 @@ import {
     Heading,
 } from '@chakra-ui/react';
 
-const NoMatch = () => {
+const Home = () => {
     return (
         <Box p={5}>
             <Heading>
-                404 Page not found
+                Home
             </Heading>
         </Box>
     )
 }
 
 
-export default NoMatch;
+export default Home;

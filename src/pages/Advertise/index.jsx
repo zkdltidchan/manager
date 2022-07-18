@@ -3,16 +3,18 @@ import {
     Box,
     Heading,
 } from '@chakra-ui/react';
+import { Cards } from '../../components/Cards';
 
-const Member = () => {
+const Advertise = () => {
     return (
         <Box p={5}>
             <Heading>
-                Member
+                Advertise
             </Heading>
+            <Cards></Cards>
         </Box>
     )
 }
 
 
-export default Member;
+export default Advertise;

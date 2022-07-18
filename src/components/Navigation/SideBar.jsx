@@ -8,16 +8,16 @@ import {
     DrawerContent,
 } from "@chakra-ui/react";
 
-const SideBar = ({ title, children, isOpen, onOpen, onClose, ...rest }) => {
+const SideBar = ({ title, children, isOpen, onOpen, onClose, headerW = "60", headerH = "20", ...rest }) => {
     const SidebarContent = ({ ...rest }) => {
         return (
             <Box
+                w={{ base: 'full', md: headerW }}
                 shadow="xl"
-                w={{ base: 'full', md: 60 }}
                 pos="fixed"
                 h="full"
                 {...rest}>
-                <Flex h="20" alignItems="center" mx={5} justifyContent={{ base: "space-between", md: 'center' }}>
+                <Flex h={headerH} alignItems="center" m={4} justifyContent={{ base: "space-between", md: 'center' }}>
                     <Heading textAlign="center">{title}</Heading>
                     <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
                 </Flex>
@@ -33,7 +33,6 @@ const SideBar = ({ title, children, isOpen, onOpen, onClose, ...rest }) => {
             >
                 {children}
             </SidebarContent>
-            
             <Drawer
                 autoFocus={false}
                 isOpen={isOpen}

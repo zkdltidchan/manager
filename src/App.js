@@ -5,89 +5,49 @@ import {
   ChakraProvider
 } from '@chakra-ui/react';
 import { theme } from './styles/theme/index';
-
+import { AuthProvider } from './context';
+import PrivateRoute from './components/PrivateRoute';
 import Navigation from './components/Navigation';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Member from './pages/Member';
-import Report from './pages/Report';
-import Room from './pages/Room';
-import Advertise from './pages/Advertise';
-import NoMatch from './pages/NoMatch';
 import {
-  // BrowserRouter,
   Routes,
   Route,
   useLocation,
-  // Navigate,
 } from "react-router-dom";
-let routes = [
-  {
-    to: "/",
-    name: "Home",
-    page: <Home />,
-    // isLast: false,
-  },
-  {
-    to: "/advertise",
-    name: "Advertise",
-    page: <Advertise />,
-    // isLast: false,
-  },
-  {
-    to: "/member",
-    name: "Member",
-    page: <Member />,
-    // isLast: false,
-  },
-  {
-    to: "/report",
-    name: "Report",
-    page: <Report />,
-    // isLast: false,
-  },
-  {
-    to: "/room",
-    name: "Room",
-    page: <Room />,
-    // isLast: true,
-  },
-]
+import routes from './config/routes';
 
 const App = () => {
   const location = useLocation();
-  const isLogin = true;
+  const headerW = 60
+  const headerH = 20
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
+      <AuthProvider>
         <Navigation
           currentIndex={location.pathname}
           sideBarItems={routes}
-          sideBarTitle="LOGO"
-          headerLogo="USERNAME"
-          isLogin={isLogin}
+          logo="DAO Manager"
+          headerH={headerH}
+          headerW={headerW}
         />
-        <Routes>
-          {isLogin ?
-            <>
-              {routes.map((route, index) => {
-                return (
-                  <Route key={index} path={route.to} element={route.page} />
-                )
-              })}
-            </> :
-            <>
-              <Route path="/login" element={<Login />} />
-            </>
-          }
-          <Route
-            path="*"
-            element={
-              <NoMatch />
-            }
-          />
-        </Routes>
-      </Box>
+        <Box
+          ml={{ base: 0, md: headerW }}
+          textAlign="center" fontSize="xl">
+          <Routes>
+            {routes.map((route) =>
+            (
+              <Route
+                key={route.name}
+                path={route.to}
+                element={!route.isPrivate ?
+                  route.page :
+                  <PrivateRoute>{route.page}</PrivateRoute>}
+              />
+            )
+            )}
+
+          </Routes>
+        </Box>
+      </AuthProvider>
     </ChakraProvider>
   );
 }
