@@ -29,7 +29,7 @@ const UserPopover = () => {
             <Popover>
                 <PopoverTrigger>
                     <Avatar
-                        src={userState.user.image}
+                        src={userState.user && userState.user.image ? userState.user.image: "https://bit.ly/kent-c-dodds"}
                         css={{
                             border: '2px solid white',
                         }}
@@ -44,7 +44,7 @@ const UserPopover = () => {
                                 <Box justify="center" m={8}>
                                     <Avatar
                                         size="xl"
-                                        src={userState.user.image}
+                                        src={userState.data && userState.data.image ? userState.data.image: "https://bit.ly/kent-c-dodds"}
                                         css={{
                                             border: '2px solid white',
                                         }}
@@ -52,9 +52,9 @@ const UserPopover = () => {
                                 </Box>
                                 <VStack align="center" p={6} spacing={4}>
                                     <Heading fontSize="2xl" fontWeight={500} fontFamily="body">
-                                        {userState.user.name}
+                                        {userState.data.name}
                                     </Heading>
-                                    <Text color="gray.500">{userState.user.role}</Text>
+                                    <Text color="gray.500">{userState.data.role}</Text>
                                     <HStack>
                                         <Button
                                             w="full"

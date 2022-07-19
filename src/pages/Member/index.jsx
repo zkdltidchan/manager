@@ -1,6 +1,7 @@
 import React, {
     useState, useEffect, useCallback,
 } from "react";
+import { getMemebers } from "../../api/memeber";
 import {
     // Flex,
     Stack,
@@ -8,6 +9,7 @@ import {
     Box,
     HStack,
     VStack,
+    Button,
     // Center,
 } from "@chakra-ui/react";
 import Table from "../../components/Table/Table";
@@ -18,7 +20,6 @@ import SearchBar, { SEARCH } from "./SearchBar";
 import PageBar, { PAGE, SIZE } from "./PageBar";
 import getColumns from "./getColumns";
 import { testData } from "./testData";
-import { getMemebers } from "../../api/memeber";
 const defaultQueryPayload = {
     [MEMBER_TYPE]: undefined,
     [SEARCH]: undefined,
@@ -28,58 +29,34 @@ const defaultQueryPayload = {
 
 
 const Member = () => {
-    // const dispatch = useDispatch();
-    // const { data } = useSelector((state) => state.listReducer);
-    // const data = {
-    //     page_index: 0,
-    //     page_count: 100,
-    //     total: 10000,
-    //     size: 10,
-    // }
     const [data, setData] = useState({});
-    useEffect(() => {
-        setData(getMemebers());
-        // console.log(data)
-      }, []);
-
-    
     const [queryPayload, setQueryPayload] = useState(defaultQueryPayload);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
-    const removeUserVocabulary = (e) => {
+    useEffect(() => {
+        async function getAPI(queryPayload){
+            console.log(queryPayload)
+            const response = await getMemebers()
+            setData(response);
+        }
+        getAPI(queryPayload)
+        console.log(data)
+      }, [queryPayload]);
+    const removeUser = (e) => {
         console.log(e)
         setIsLoading(true)
-        // dispatch(
-        //     removeToUserVocabularyList({
-        //         user_id: user_id,
-        //         vocabulary_id: e,
-        //     })
-        // ).then(() => {
-        //     console.log("done")
-        //     getVocabularyList()
-
-        //     // updateTable()
-        // });
-
+        // TODO
+        setIsLoading(false)
     }
 
-    // const [isLoading,setIsLoading] = useState(false)
-
-    const addUserVocabulary = (e) => {
+    const addUser = (e) => {
+        console.log(e)
         setIsLoading(true)
-        // dispatch(
-        //     addToUserVocabularyList({
-        //         vocabulary_id: e,
-        //     })
-        // ).then(() => {
-        //     console.log("done")
-        //     setIsLoading(false)
-        //     getVocabularyList()
-        //     // updateTable()
-        // })
+        // TODO
+        setIsLoading(false)
     }
 
-    const columns = getColumns(addUserVocabulary, removeUserVocabulary, isLoading);
+    const columns = getColumns(addUser, removeUser, isLoading);
 
     const handleTableSeleclt = (values) => {
         setSelectedIds(values);
@@ -111,7 +88,7 @@ const Member = () => {
     const pageDetail = {
         total: (data.total ? data.total : 0),
         pageIndex: (data.page_index ? data.page_index : 0),
-        pageCounts: (data.page_count ? data.page_count : 0),
+        pageCounts: (data.page_count ? data.page_count : 1),
         size: data.size,
     };
 
@@ -158,10 +135,11 @@ const Member = () => {
                 </HStack>
             </Stack>
             <Table
-                dataList={data.data_list ? data.data_list : testData
+                dataList={data.data ? data.data : testData
                 }
                 columns={columns}
-                rowId="_id"
+                // rowId="_id"
+                rowId="user_id"
                 sortable={true}
                 onSelect={handleTableSeleclt}
                 selectable={true}

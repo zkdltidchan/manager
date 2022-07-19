@@ -16,18 +16,24 @@ export async function loginUser(dispatch, loginPayload) {
         dispatch({ type: 'REQUEST_LOGIN' });
         // let data = await login(requestOptions);
         let data = await login(loginPayload);
-        if (data.ok) {
+        if (data.access_token) {
             dispatch({ type: 'LOGIN_SUCCESS', payload: data });
             localStorage.setItem('currentUser', JSON.stringify(data));
             return data;
         }
-
-        dispatch({ type: 'LOGIN_ERROR', error: data.error });
-        console.log(data.error);
+        // for fake mock api test
+        if (data.error) {
+            dispatch({ type: 'LOGIN_ERROR', error: data.error });
+        }
         return;
+
     } catch (error) {
-        dispatch({ type: 'LOGIN_ERROR', error: error });
-        console.log(error);
+        if (error.response) {
+            dispatch({ type: 'LOGIN_ERROR', error: error.response });
+        } else {
+            dispatch({ type: 'LOGIN_ERROR', error: error });
+            console.log(error);
+        }
     }
 }
 

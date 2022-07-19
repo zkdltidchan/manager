@@ -19,7 +19,7 @@ const Navigation = ({ sideBarItems, logo, currentIndex, headerH, headerW }) => {
 
   return (
     <>
-      {currentUser && currentUser.user ?
+      {currentUser && currentUser.data ?
         <>
           <SideBar
             title={logo}
@@ -67,7 +67,7 @@ const Navigation = ({ sideBarItems, logo, currentIndex, headerH, headerW }) => {
             </Button>
             <Box display={{ base: 'none', md: 'flex' }}>
               <Text fontSize="xl" fontWeight="bold">
-                {currentUser.user.name}
+                {currentUser.data.name}
               </Text>
             </Box>
             <Box display={{ base: 'flex', md: 'none' }}>

@@ -1,15 +1,15 @@
-let user = localStorage.getItem('currentUser')
-    ? JSON.parse(localStorage.getItem('currentUser')).user
+let data = localStorage.getItem('currentUser')
+    ? JSON.parse(localStorage.getItem('currentUser')).data
     : '';
 let token = localStorage.getItem('currentUser')
-    ? JSON.parse(localStorage.getItem('currentUser')).auth_token
+    ? JSON.parse(localStorage.getItem('currentUser')).access_token
     : '';
 
 export const initialState = {
-    user: '' || user,
+    data: '' || data,
     token: '' || token,
     loading: false,
-    errorMessage: null,
+    error: null,
 };
 
 export const AuthReducer = (initialState, action) => {
@@ -20,24 +20,26 @@ export const AuthReducer = (initialState, action) => {
                 loading: true,
             };
         case 'LOGIN_SUCCESS':
+            console.log(action.payload.access_token)
             return {
                 ...initialState,
-                user: action.payload.user,
-                token: action.payload.auth_token,
+                data: action.payload.data,
+                token: action.payload.access_token,
                 loading: false,
             };
         case 'LOGOUT':
             return {
                 ...initialState,
-                user: '',
+                data: '',
                 token: '',
             };
 
         case 'LOGIN_ERROR':
+            console.log(action.error)
             return {
                 ...initialState,
                 loading: false,
-                errorMessage: action.error,
+                error: action.error.data,
             };
 
         default:

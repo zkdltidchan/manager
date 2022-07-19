@@ -17,7 +17,7 @@ import { loginUser, useAuthState, useAuthDispatch } from '../../context';
 
 const Login = () => {
     const dispatch = useAuthDispatch();
-    const { loading, errorMessage } = useAuthState();
+    const { loading, error } = useAuthState();
 
     const navigate = useNavigate();
     const [username, setUsername] = useState("")
@@ -26,7 +26,7 @@ const Login = () => {
         e.preventDefault();
         try {
             let response = await loginUser(dispatch, { username, password });
-            if (!response.user) return;
+            if (!response.access_token) return;
             navigate('/');
         } catch (error) {
             console.log(error);
@@ -80,7 +80,7 @@ const Login = () => {
                                 >
                                     Sign in
                                 </Button>
-                                {errorMessage && <Text textColor="red.300" >{errorMessage}</Text>}
+                                {error && <Text textColor="red.300" >{error.error_message}</Text>}
                             </Stack>
                         </form>
                     </Stack>
