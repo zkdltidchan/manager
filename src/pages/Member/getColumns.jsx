@@ -1,10 +1,3 @@
-import { Button, Input, Badge } from "@chakra-ui/react";
-import { StarIcon } from '@chakra-ui/icons'
-import React, {
-    useEffect,
-    useState,
-} from "react";
-
 export default function getColumns(add, remove, isLoading) {
     const handleRemoveMember = (e) => {
         remove(e)

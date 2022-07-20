@@ -29,11 +29,15 @@ export default function Pagination({ pageCounts, page, onApply, ...rest }) {
             } else {
                 setIsFirstPage(false)
             }
+            
             let listStop = 5;
             setPageIndex(active)
             if (active > lastPage) {
                 active = lastPage;
             }
+            
+            let listStart = active -2
+            
 
             let list = [];
             for (let i = active - 2; list.length < listStop; i++) {

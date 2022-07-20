@@ -5,11 +5,16 @@ import { getMemebers } from "../../api/memeber";
 import {
     // Flex,
     Stack,
-    Heading,
+    Text,
     Box,
     HStack,
     VStack,
     Button,
+    Spinner,
+    Skeleton,
+    Flex,
+    // SkeletonCircle,
+    // SkeletonText,
     // Center,
 } from "@chakra-ui/react";
 import Table from "../../components/Table/Table";
@@ -23,7 +28,7 @@ import { testData } from "./testData";
 const defaultQueryPayload = {
     [MEMBER_TYPE]: undefined,
     [SEARCH]: undefined,
-    [SIZE]: 5,
+    [SIZE]: 1,
     "page_index": 1,
 };
 
@@ -34,14 +39,19 @@ const Member = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedIds, setSelectedIds] = useState([]);
     useEffect(() => {
-        async function getAPI(queryPayload){
+        async function getAPI(queryPayload) {
             console.log(queryPayload)
-            const response = await getMemebers()
+            setIsLoading(true)
+            const response = await getMemebers(queryPayload)
             setData(response);
+            setIsLoading(false)
         }
+
         getAPI(queryPayload)
+
         console.log(data)
-      }, [queryPayload]);
+    }, [queryPayload]);
+
     const removeUser = (e) => {
         console.log(e)
         setIsLoading(true)
@@ -77,7 +87,7 @@ const Member = () => {
             default:
                 partialPayload = {
                     [type]: value,
-                    // [PAGE]: 1,
+                    [PAGE]: 1,
 
                 };
         }
@@ -88,7 +98,7 @@ const Member = () => {
     const pageDetail = {
         total: (data.total ? data.total : 0),
         pageIndex: (data.page_index ? data.page_index : 0),
-        pageCounts: (data.page_count ? data.page_count : 1),
+        pageCounts: (data.page_counts ? data.page_counts : 1),
         size: data.size,
     };
 
@@ -133,7 +143,13 @@ const Member = () => {
                         currentPageData={pageDetail}
                     />
                 </HStack>
+
+
             </Stack>
+            <Flex pt={2} align="start" justify="start">
+                {/* TODO */}
+                <Button disabled={!selectedIds.length}>Edit</Button>
+            </Flex>
             <Table
                 dataList={data.data ? data.data : testData
                 }
@@ -143,27 +159,32 @@ const Member = () => {
                 sortable={true}
                 onSelect={handleTableSeleclt}
                 selectable={true}
+                loading={isLoading}
             // editable={true}
             // hiddenSelected={"columnHiden"}
             />
-
             <Box>
                 <VStack align="start">
-                    <Heading>
+                    <Text>
                         Test:
-                    </Heading>
-                    <Heading>
+                    </Text>
+                    <Text>
                         Selected Memeber Type: {queryPayload.member_type}
-                    </Heading>
-                    <Heading>
+                    </Text>
+                    <Text>
                         Search Input: {queryPayload.search}
-                    </Heading>
-                    <Heading>
+                    </Text>
+                    <Text>
                         Show Size: {queryPayload.size}
-                    </Heading>
-                    <Heading>
+                    </Text>
+                    <Text>
                         Current Index: {queryPayload.page_index}
-                    </Heading>
+                    </Text>
+                    <Text>
+                        Select Items: {selectedIds.map((item, index) =>
+                            <Text key={index}>{item}</Text>
+                        )}
+                    </Text>
                 </VStack>
             </Box>
         </Box>

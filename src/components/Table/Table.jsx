@@ -7,6 +7,7 @@ import {
     ChevronDownIcon,
 } from "@chakra-ui/icons";
 
+
 import {
     Table as ChakraTable,
     Thead,
@@ -14,6 +15,8 @@ import {
     Tr,
     Th,
     Td,
+    Skeleton,
+    useColorModeValue,
     // Button,
     // VStack,
     // Flex,
@@ -37,11 +40,12 @@ function Table(props) {
         // editable,
         // onSort,
         // rowHeight,
-        // loading
+        loading,
     } = props;
     // Use the state and functions returned from useTable to build your UI
     const [data, setData] = useState(dataList);
     const [skipPageReset, setSkipPageReset] = useState(false);
+    const TrHoverColor = useColorModeValue("gray.50", "gray.600")
 
     useEffect(() => {
         setData(dataList);
@@ -136,33 +140,36 @@ function Table(props) {
                                     {...column.getHeaderProps(column.getSortByToggleProps())}
                                     isNumeric={column.isNumeric}
                                 >
-                                    {column.render("Header")}{" "}
-                                    {column.canSort ? (
-                                        column.isSorted ? (
-                                            column.isSortedDesc ? (
-                                                <ChevronDownIcon />
+                                    <Skeleton isLoaded={!loading}>
+                                        {column.render("Header")}{" "}
+                                        {column.canSort ? (
+                                            column.isSorted ? (
+                                                column.isSortedDesc ? (
+                                                    <ChevronDownIcon />
+                                                ) : (
+                                                    <ChevronUpIcon />
+                                                )
                                             ) : (
-                                                <ChevronUpIcon />
+                                                <ArrowUpDownIcon />
                                             )
                                         ) : (
-                                            <ArrowUpDownIcon />
-                                        )
-                                    ) : (
-                                        ""
-                                    )}
+                                            ""
+                                        )}
+                                    </Skeleton>
                                 </Th>
                             ))}
                         </Tr>
+
                     ))}
                 </Thead>
+
                 <Tbody {...getTableBodyProps()}>
                     {rows.map((row, i) => {
                         prepareRow(row);
                         return (
                             <Tr
                                 {...row.getRowProps()}
-                                // sx={{ _hover: { bg: "gray.50",transition:{property: 'transform',duration: '5s',easing: 'ease-in-out'} } }}
-                                sx={{ _hover: { bg: "gray.50", transition: "0.5s" } }}
+                                sx={{ _hover: { bg: TrHoverColor, transition: "0.5s" } }}
                             >
                                 {row.cells.map((cell) => {
                                     return (
@@ -170,7 +177,9 @@ function Table(props) {
                                             {...cell.getCellProps()}
                                             isNumeric={cell.column.isNumeric}
                                         >
-                                            {cell.render("Cell")}
+                                            <Skeleton isLoaded={!loading}>
+                                                {cell.render("Cell")}
+                                            </Skeleton>
                                         </Td>
                                     );
                                 })}
