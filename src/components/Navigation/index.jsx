@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Button,
@@ -13,9 +13,19 @@ import SideBar from "./SideBar";
 import UserPopover from "./UserPopover";
 import { useAuthState } from "../../context";
 import { HamburgerIcon } from "@chakra-ui/icons";
-const Navigation = ({ sideBarItems, logo, currentIndex, headerH, headerW }) => {
+const Navigation = ({ sideBarItems, logo, currentIndex, headerH, headerW, handleSetHeaderW, defaultHeaderW }) => {
   const currentUser = useAuthState()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [sideBarSmall, setSideBarSmall] = useState(false);
+  const setSideBarW = () => {
+    if (!sideBarSmall) {
+      setSideBarSmall(true)
+      handleSetHeaderW(20)
+    } else {
+      setSideBarSmall(false)
+      handleSetHeaderW(defaultHeaderW)
+    }
+  }
 
   return (
     <>
@@ -49,6 +59,9 @@ const Navigation = ({ sideBarItems, logo, currentIndex, headerH, headerW }) => {
                 })
               }
             </VStack>
+            {/* <VStack>
+              <Button onClick={setSideBarW}>{sideBarSmall?">":"<"}</Button>
+            </VStack> */}
           </SideBar>
           <Flex
             ml={{ base: 0, md: headerW }}

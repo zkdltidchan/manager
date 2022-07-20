@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
-  // Container,
   ChakraProvider
 } from '@chakra-ui/react';
 import { theme } from './styles/theme/index';
@@ -17,8 +16,15 @@ import routes from './config/routes';
 
 const App = () => {
   const location = useLocation();
-  const headerW = 60
-  const headerH = 20
+  const defaultW = 60
+  const [headerW, setHeaderW] = useState(defaultW)
+  const headerH = 20;
+  const handleSetHeader = (value) => {
+    console.log(value)
+    setHeaderW(value)
+  };
+
+
   return (
     <ChakraProvider theme={theme}>
       <AuthProvider>
@@ -26,8 +32,10 @@ const App = () => {
           currentIndex={location.pathname}
           sideBarItems={routes}
           logo="DAO Manager"
+          defaultHeaderW={defaultW}
           headerH={headerH}
           headerW={headerW}
+          handleSetHeaderW={handleSetHeader}
         />
         <Box
           ml={{ base: 0, md: headerW }}

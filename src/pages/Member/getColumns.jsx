@@ -1,10 +1,10 @@
 export default function getColumns(add, remove, isLoading) {
-    const handleRemoveMember = (e) => {
-        remove(e)
-    }
-    const handleAddMember = (e) => {
-        add(e)
-    }
+    // const handleRemoveMember = (e) => {
+    //     remove(e)
+    // }
+    // const handleAddMember = (e) => {
+    //     add(e)
+    // }
     return [
         {
             Header: "Member",

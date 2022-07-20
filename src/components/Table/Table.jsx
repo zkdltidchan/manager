@@ -5,6 +5,7 @@ import {
     ArrowUpDownIcon,
     ChevronUpIcon,
     ChevronDownIcon,
+
 } from "@chakra-ui/icons";
 
 
@@ -17,6 +18,7 @@ import {
     Td,
     Skeleton,
     useColorModeValue,
+    Box,
     // Button,
     // VStack,
     // Flex,
@@ -122,7 +124,7 @@ function Table(props) {
 
     // Render the UI for your table
     return (
-        <>
+        <Box w="100%" overflowX="scroll" >
             {/* <VStack> */}
             <ChakraTable {...getTableProps()}>
                 <Thead>
@@ -205,7 +207,7 @@ function Table(props) {
         </code>
       </pre> */}
             {/* </VStack> */}
-        </>
+        </Box>
     );
 }
 

@@ -1,21 +1,15 @@
 import React, {
-    useState, useEffect, useCallback,
+    useState, useEffect,
 } from "react";
 import { getMemebers } from "../../api/memeber";
 import {
-    // Flex,
     Stack,
     Text,
     Box,
     HStack,
     VStack,
     Button,
-    Spinner,
-    Skeleton,
     Flex,
-    // SkeletonCircle,
-    // SkeletonText,
-    // Center,
 } from "@chakra-ui/react";
 import Table from "../../components/Table/Table";
 import FilterBar, {
@@ -46,10 +40,7 @@ const Member = () => {
             setData(response);
             setIsLoading(false)
         }
-
         getAPI(queryPayload)
-
-        console.log(data)
     }, [queryPayload]);
 
     const removeUser = (e) => {
@@ -150,19 +141,21 @@ const Member = () => {
                 {/* TODO */}
                 <Button disabled={!selectedIds.length}>Edit</Button>
             </Flex>
-            <Table
-                dataList={data.data ? data.data : testData
-                }
-                columns={columns}
-                // rowId="_id"
-                rowId="user_id"
-                sortable={true}
-                onSelect={handleTableSeleclt}
-                selectable={true}
-                loading={isLoading}
-            // editable={true}
-            // hiddenSelected={"columnHiden"}
-            />
+            
+                <Table
+                    dataList={data.data ? data.data : testData
+                    }
+                    columns={columns}
+                    // rowId="_id"
+                    rowId="user_id"
+                    sortable={true}
+                    onSelect={handleTableSeleclt}
+                    selectable={true}
+                    loading={isLoading}
+
+                // editable={true}
+                // hiddenSelected={"columnHiden"}
+                />
             <Box>
                 <VStack align="start">
                     <Text>
